@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Condiciones del Servicio')">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+<th:block th:replace="fragments/header :: header"></th:block>
+
+<main class="container my-5">
+    <h1 class="mb-4">Condiciones del Servicio</h1>
+
+    <p>Al acceder y utilizar el sitio web de <strong>Tubertico</strong>, usted acepta las siguientes condiciones. Por favor, léalas detenidamente.</p>
+
+    <h5>1. Uso del sitio web</h5>
+    <p>El contenido de este sitio web es para uso informacional general y exclusivo. Está sujeto a cambios sin previo aviso.</p>
+
+    <h5>2. Responsabilidad de la información</h5>
+    <p>Nos esforzamos por mantener la información actualizada y precisa. Sin embargo, no garantizamos su exactitud ni integridad.</p>
+
+    <h5>3. Propiedad intelectual</h5>
+    <p>Todo el contenido del sitio (textos, imágenes, logos) es propiedad de Tubertico o se utiliza con permiso. Su reproducción está prohibida sin autorización escrita.</p>
+
+    <h5>4. Enlaces a terceros</h5>
+    <p>Este sitio puede contener enlaces a sitios externos. No nos responsabilizamos por su contenido ni funcionamiento.</p>
+
+    <h5>5. Cotizaciones y precios</h5>
+    <p>Los precios mostrados en las cotizaciones son aproximados y están sujetos a cambios según el volumen, destino y condiciones del mercado. Toda cotización será válida únicamente si es confirmada oficialmente por nuestro equipo comercial.</p>
+
+    <h5>6. Limitación de responsabilidad</h5>
+    <p>Tubertico no será responsable por daños directos o indirectos derivados del uso o imposibilidad de uso de nuestro sitio.</p>
+
+    <h5>7. Legislación aplicable</h5>
+    <p>Estas condiciones se rigen por las leyes de la República de Costa Rica. Cualquier controversia será sometida a la jurisdicción de los tribunales competentes de dicho país.</p>
+
+    <p class="mt-4"><strong>Última actualización:</strong> Julio 2025</p>
+</main>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+
+</body>
+</html>

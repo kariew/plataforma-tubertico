@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Inicio | Tubertico')">
+    <!-- Fuente Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<th:block th:replace="fragments/header :: header"></th:block>
+
+<!-- Sección de presentación con video de fondo -->
+<section class="position-relative overflow-hidden" style="height: 100vh;">
+    <video autoplay muted loop playsinline
+           class="position-absolute top-0 start-0 w-100 h-100"
+           style="object-fit: cover;"
+           th:src="@{'https://res.cloudinary.com/dv5xfo78c/video/upload/v1734383971/web_tubertico_uxfqyl.mp4'}">
+    </video>
+
+    <div class="position-relative d-flex flex-column justify-content-center align-items-center h-100 text-white"
+         style="background: rgba(0,0,0,0.4);">
+        <h1 class="fw-bold display-4 text-uppercase mb-4">Somos Tubertico</h1>
+        <h2 class="fw-light text-uppercase mb-5" style="letter-spacing: 2px;">Donde encuentra calidad</h2>
+        <a class="btn btn-primary btn-lg mt-4" th:href="@{/formulario}">Solicitar Cotización</a>
+    </div>
+</section>
+
+<!-- Sección QUIÉNES SOMOS -->
+<section class="container my-5">
+    <th:block th:replace="fragments/quiensomos :: quiensomos"></th:block>
+</section>
+
+<!-- Galería (opcional) -->
+<style>
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 200px 200px;
+        grid-template-areas:
+            "item1 item2 item3 item4"
+            "item1 item5 item6 item7";
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .gallery-item {
+        background: #eee;
+        border: 1px solid #ccc;
+    }
+
+    .item1 { grid-area: item1; }
+    .item2 { grid-area: item2; }
+    .item3 { grid-area: item3; }
+    .item4 { grid-area: item4; }
+    .item5 { grid-area: item5; }
+    .item6 { grid-area: item6; }
+    .item7 { grid-area: item7; }
+</style>
+
+<!-- Contacto -->
+<div th:replace="fragments/contacto :: contacto"></div>
+
+<!-- Mapa -->
+<div th:replace="fragments/mapa :: mapa"></div>
+
+<!-- Footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

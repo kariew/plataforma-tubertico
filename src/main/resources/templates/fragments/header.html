@@ -1,0 +1,96 @@
+<th:block th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <img th:src="@{${logoNaranja} ? '/img/tuberticoNaranja_logo.png' : '/img/tubertico_logo.png'}"
+                     alt="Tubertico Logo" height="40">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/productos">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/galeria">Galería</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contacto">Contacto</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="idiomaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Idioma
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="idiomaDropdown">
+                            <li><a class="dropdown-item" href="#" id="lang-es">Español</a></li>
+                            <li><a class="dropdown-item" href="#" id="lang-en">Inglés</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item ms-4">
+                        <a href="/register" class="btn btn-warning text-white rounded-pill px-4 shadow-sm">
+                            CLIENTE NUEVO
+                        </a>
+                        <div class="text-center">
+                            <a href="/login" class="small text-decoration-none" style="color: #0d6efd;">Ya soy cliente</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Lógica para cambiar entre versiones español/inglés y guardar preferencia en cookie
+        document.addEventListener('DOMContentLoaded', function () {
+            function setLangCookie(lang) {
+                document.cookie = 'lang=' + lang + ';path=/;max-age=31536000'; // 1 año
+            }
+            function getBaseName(path) {
+                let file = path.split('/').pop();
+                if (!file || file === '') return 'home'; // para rutas como /
+                if (file.endsWith('_en')) return file.replace('_en', '');
+                if (file.endsWith('.html')) return file.replace('.html', '');
+                if (file.endsWith('_en.html')) return file.replace('_en.html', '');
+                return file;
+            }
+            function getDir(path) {
+                let parts = path.split('/');
+                parts.pop();
+                return parts.length ? parts.join('/') + '/' : '/';
+            }
+            function getTargetPath(lang) {
+                let path = window.location.pathname;
+                let dir = getDir(path);
+                let base = getBaseName(path);
+                if (path.endsWith('/')) base = 'home';
+                if (!base) base = 'home';
+                if (lang === 'es') {
+                    if (base.endsWith('_en')) base = base.replace('_en', '');
+                    return dir + base;
+                } else {
+                    if (base.endsWith('_en')) return dir + base;
+                    return dir + base + '_en';
+                }
+            }
+            document.getElementById('lang-es').addEventListener('click', function (e) {
+                e.preventDefault();
+                setLangCookie('es');
+                window.location.href = getTargetPath('es');
+            });
+            document.getElementById('lang-en').addEventListener('click', function (e) {
+                e.preventDefault();
+                setLangCookie('en');
+                window.location.href = getTargetPath('en');
+            });
+        });
+    </script>
+</th:block>

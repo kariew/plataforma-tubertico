@@ -1,0 +1,37 @@
+<!-- fragments/contacto.html -->
+<section th:fragment="contacto" style="background-color: #5f6c2c; padding: 50px 0 40px; color: white; margin-bottom: 0;">
+    <div class="container text-center">
+        <!-- Logo (opcional arriba) -->
+        <div class="mb-3">
+            <img src="/img/tuberticoBlanco_logo.png" alt="Tubertico Logo" style="height: 60px;">
+        </div>
+
+        <!-- Título -->
+        <h2 class="fw-bold mb-2" style="font-size: 2.5rem;">NUESTROS<br>CONTACTOS</h2>
+        <hr class="mx-auto mb-4" style="width: 80px; height: 2px; background-color: white; opacity: 0.5;">
+
+        <!-- Botones -->
+        <div class="mb-4 d-flex justify-content-center gap-2">
+            <a href="https://goo.gl/maps/fHpVkq4Awd2v5XAn7" target="_blank" class="btn btn-light px-4 py-2">
+                <i class="bi bi-geo-alt-fill me-2 fs-5 text-success"></i> Ubicación
+            </a>
+            <a href="tel:+50683885918" class="btn btn-light px-4 py-2">
+                <i class="bi bi-telephone-fill me-2 fs-5 text-success"></i> Contacto
+            </a>
+        </div>
+
+        <!-- Contactos -->
+        <div class="row justify-content-center">
+            <div class="col-md-5 text-end pe-md-4 border-end border-white">
+                <strong>Pablo Quirós</strong><br>
+                (+506) 8388-5918<br>
+                <a href="mailto:pablo.quiros@tubertico.com" class="text-white">pablo.quiros@tubertico.com</a>
+            </div>
+            <div class="col-md-5 text-start ps-md-4">
+                <strong>Oficina</strong><br>
+                (+506) 8973-2830<br>
+                <a href="mailto:oficina@tubertico.com" class="text-white">oficina@tubertico.com</a>
+            </div>
+        </div>
+    </div>
+</section>

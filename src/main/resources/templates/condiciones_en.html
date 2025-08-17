@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Terms of Service')">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+<th:block th:replace="fragments/header_en :: header_en"></th:block>
+
+<main class="container my-5">
+    <h1 class="mb-4">Terms of Service</h1>
+
+    <p>By accessing and using the <strong>Tubertico</strong> website, you agree to the following terms. Please read them carefully.</p>
+
+    <h5>1. Website Use</h5>
+    <p>The content of this website is for general informational and exclusive use. It is subject to change without notice.</p>
+
+    <h5>2. Information Responsibility</h5>
+    <p>We strive to keep the information up to date and accurate. However, we do not guarantee its accuracy or completeness.</p>
+
+    <h5>3. Intellectual Property</h5>
+    <p>All site content (texts, images, logos) is the property of Tubertico or used with permission. Reproduction is prohibited without written authorization.</p>
+
+    <h5>4. Third-Party Links</h5>
+    <p>This site may contain links to external sites. We are not responsible for their content or operation.</p>
+
+    <h5>5. Quotations and Prices</h5>
+    <p>The prices shown in quotations are approximate and subject to change according to volume, destination, and market conditions. Any quotation will only be valid if officially confirmed by our sales team.</p>
+
+    <h5>6. Limitation of Liability</h5>
+    <p>Tubertico will not be liable for direct or indirect damages arising from the use or inability to use our site.</p>
+
+    <h5>7. Applicable Law</h5>
+    <p>These terms are governed by the laws of the Republic of Costa Rica. Any dispute will be submitted to the jurisdiction of the competent courts of that country.</p>
+
+    <p class="mt-4"><strong>Last update:</strong> July 2025</p>
+</main>
+
+<footer th:replace="fragments/footer_en :: footer_en"></footer>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Panel admin | Tubertico')"></head>
+<body>
+
+<!-- Header -->
+<th:block th:replace="fragments/header :: header"></th:block>
+
+<div class="container my-5">
+    <h2 class="text-center">Gestión de Fichas Informativas</h2>
+
+    <!-- Formulario para crear o editar productos -->
+    <form th:action="@{/admin-fichas}" method="post" th:object="${producto}">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title">Información de Producto</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Nombre del producto</label>
+                        <input type="text" th:field="*{nombre}" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Nombre científico</label>
+                        <input type="text" th:field="*{nombreCientifico}" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Presentaciones -->
+        <div class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title">Presentaciones</h5>
+                <div id="presentacionesContainer">
+                    <div class="row mb-3" th:each="pres, stat : *{presentaciones}">
+                        <div class="col-md-6">
+                            <label>Tipo</label>
+                            <input type="text" th:field="*{presentaciones[__${stat.index}__].tipo}" class="form-control">
+                        </div>
+                        <div class="col-md-5">
+                            <label>Peso estimado (lb)</label>
+                            <input type="number" step="0.01" th:field="*{presentaciones[__${stat.index}__].pesoEstimado}" class="form-control">
+                        </div>
+                        <div class="col-md-1 d-flex align-items-end">
+                            <button type="button" class="btn btn-outline-danger remove-btn">-</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-primary" id="addPresentacionBtn">Agregar Presentación</button>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Guardar ficha</button>
+        </div>
+    </form>
+
+    <!-- Tabla de productos existentes -->
+    <h3 class="mt-5">Productos existentes</h3>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Nombre científico</th>
+            <th>Presentaciones</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="prod : ${productosExistentes}">
+            <td th:text="${prod.nombre}"></td>
+            <td th:text="${prod.nombreCientifico}"></td>
+            <td>
+                <ul>
+                    <li th:each="pres : ${prod.presentaciones}"
+                        th:text="${pres.tipo + ' - ' + pres.pesoEstimado + ' lb'}"></li>
+                </ul>
+            </td>
+            <td>
+                <a th:href="@{'/admin-fichas/editar/' + ${prod.id}}" class="btn btn-sm btn-outline-primary">Editar</a>
+                <form th:action="@{'/admin-fichas/eliminar/' + ${prod.id}}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    let index = [[${#lists.size(producto.presentaciones)}]];
+
+    document.getElementById('addPresentacionBtn').addEventListener('click', function () {
+        const container = document.getElementById('presentacionesContainer');
+
+        const row = document.createElement('div');
+        row.classList.add('row', 'mb-3');
+        row.innerHTML = `
+            <div class="col-md-6">
+                <label>Tipo</label>
+                <input type="text" name="presentaciones[${index}].tipo" class="form-control"/>
+            </div>
+            <div class="col-md-5">
+                <label>Peso estimado (lb)</label>
+                <input type="number" name="presentaciones[${index}].pesoEstimado" class="form-control" step="0.01"/>
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                <button type="button" class="btn btn-outline-danger remove-btn">-</button>
+            </div>
+        `;
+
+        container.appendChild(row);
+
+        row.querySelector('.remove-btn').addEventListener('click', function () {
+            container.removeChild(row);
+        });
+
+        index++;
+    });
+
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            this.closest('.row').remove();
+        });
+    });
+</script>
+
+<!-- Footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

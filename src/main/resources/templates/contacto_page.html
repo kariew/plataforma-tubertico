@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Fragmento de head -->
+<th:block th:replace="fragments/head :: head('Contacto | Tubertico')"></th:block>
+
+<style>
+    .banner-contacto {
+        background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+                    url('/img/fondo_contacto.jpg') center 35% / cover no-repeat;
+        color: white;
+        min-height: 460px;
+        display: flex;
+        align-items: center;
+    }
+
+    .texto-contacto {
+        color: #e5e5e5;
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+
+    .wsp-float-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background-color: #c75c19;
+        color: white;
+        padding: 14px 22px;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        text-decoration: none;
+        transition: transform 0.2s ease-in-out;
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    .wsp-float-btn:hover {
+        transform: translateY(-3px);
+    }
+
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+        .banner-contacto {
+            background-position: center 45%;
+            padding: 40px 20px;
+        }
+    }
+</style>
+
+<body>
+<!-- Header -->
+<th:block th:replace="fragments/header :: header"></th:block>
+
+<!-- Banner de Contacto -->
+<section class="banner-contacto">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Título -->
+            <div class="col-md-6 text-center text-md-start mb-4 mb-md-0">
+                <h2 class="fw-light text-uppercase" style="letter-spacing: 2px;">Contáctenos</h2>
+                <h1 class="fw-bold display-4 text-uppercase">TUBERTICO</h1>
+            </div>
+
+            <!-- Frase -->
+            <div class="col-md-6">
+                <p class="texto-contacto">
+                    Con más de 20 años en el mercado internacional. Dedicados a la producción, compra y comercialización de hortalizas, raíces y tubérculos.
+                    <br><br>
+                    Estamos comprometidos con la calidad y frescura de cada producto, buscando cada día perfeccionar nuestros procesos para garantizar una entrega oportuna.
+                </p>
+                <a class="wsp-float-btn mt-3" href="https://wa.me/50689732830" target="_blank">
+                    <i class="bi bi-whatsapp fs-5"></i> ¡Contáctenos!
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Panel de contacto estilizado -->
+<section class="py-5" style="background-color: #fff7ed;">
+    <div class="container">
+        <div class="row text-center">
+            <!-- Dirección -->
+            <div class="col-md-4 mb-4">
+                <i class="bi bi-geo-alt-fill" style="font-size: 2.5rem; color: #c75c19;"></i>
+                <h5 class="fw-bold mt-2">Dirección</h5>
+                <p class="mb-0">Costa Rica, Limón, Pococí, Roxana.</p>
+                <p>70m norte de la Escuela Líder Roxana</p>
+            </div>
+
+            <!-- Teléfono -->
+            <div class="col-md-4 mb-4">
+                <i class="bi bi-telephone-fill" style="font-size: 2.5rem; color: #c75c19;"></i>
+                <h5 class="fw-bold mt-2">Teléfono</h5>
+                <p><a href="tel:+50689732830" class="text-dark text-decoration-none">+506 8973 2830</a></p>
+            </div>
+
+            <!-- Correo -->
+            <div class="col-md-4 mb-4">
+                <i class="bi bi-envelope-fill" style="font-size: 2.5rem; color: #c75c19;"></i>
+                <h5 class="fw-bold mt-2">Correo electrónico</h5>
+                <p><a href="mailto:oficina@tubertico.com" class="text-dark text-decoration-none">oficina@tubertico.com</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Panel verde "Nuestros Contactos" -->
+<section th:replace="fragments/contacto :: contacto"></section>
+
+<!-- Mapa -->
+<section>
+    <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3927.099084636234!2d-83.75191!3d10.2754762!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa0b7dfc3fbd86f%3A0xb85f0bbf1d63f0b8!2sTuberculos%20Ticos%20S.R.L.%20(TUBERTICO)!5e0!3m2!1ses-419!2scr!4v1717529058731!5m2!1ses-419!2scr"
+            width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+</section>
+
+<!-- Footer -->
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

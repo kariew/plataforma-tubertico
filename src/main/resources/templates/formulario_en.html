@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<!--/*@thymesVar id="cotizacionDto" type="com.tubertico.dto.CotizacionDto"*/-->
+<!--/*@thymesVar id="productos"    type="java.util.List<com.tubertico.model.Producto>"*/-->
+<!--/*@thymesVar id="presentaciones" type="java.util.List<com.tubertico.model.Presentacion>"*/-->
+<!--/*@thymesVar id="item" type="com.tubertico.dto.CotizacionItemDto"*/-->
+
+<html xmlns:th="http://www.thymeleaf.org" th:inline="text">
+<head th:replace="~{fragments/head :: head('Quotation | Tubertico')}"></head>
+<body>
+<!-- Header -->
+<th:block th:replace="fragments/header_en :: header_en"></th:block>
+
+<section class="container py-5">
+    <h1 class="fw-bold mb-4">Quotation Form</h1>
+
+    <!-- Product Sheets button visible only to ADMIN
+    <div th:if="${isAdmin}" class="text-center mb-4">
+        <a th:href="@{/admin-fichas}"
+           class="btn btn-danger btn-lg px-5 py-3 text-white fw-bold shadow rounded-3">
+            Product Sheets
+        </a>
+    </div> -->
+
+    <!-- Main POST form with multiple items -->
+    <form th:action="@{/cotizaciones_en}"
+          th:object="${cotizacionDto}"
+          method="post">
+        <!-- hidden -->
+        <input type="hidden" th:field="*{usuarioId}" />
+
+        <!-- Iterate over dto.items -->
+        <div id="items-container" th:with="lista=${cotizacionDto.items}">
+            <div class="row g-4 item-row" th:each="it, st : ${lista}">
+
+                <!-- Producto -->
+                <div class="col-md-3">
+                    <label class="form-label">Product</label>
+                    <select class="form-select sel-producto"
+                            th:name="|items[${st.index}].productoId|"
+                            required>
+                        <!-- Placeholder without value, selected when there's no product -->
+                        <option value="" th:selected="${it.productoId == null}">
+                            Select Product
+                        </option>
+
+                        <!-- Real options -->
+                        <option th:each="p : ${productos}"
+                                th:value="${p.id}"
+                                th:text="${p.nombre}"
+                                th:selected="${p.id == it.productoId}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Presentation -->
+                <div class="col-md-3">
+                    <label class="form-label">Presentation</label>
+                    <select class="form-select sel-presentacion"
+                            th:name="|items[${st.index}].presentacionId|"
+                            disabled>
+                        <option value="">Presentation</option>
+
+                    </select>
+                </div>
+
+                <!-- Units -->
+                <div class="col-md-2">
+                    <label class="form-label">Units</label>
+                    <input type="number" min="1" class="form-control inp-unidades"
+                           th:name="|items[${st.index}].unidades|"
+                           th:value="${it.unidades}" />
+                </div>
+
+                <!-- Total weight (readonly for te user) -->
+                <div class="col-md-2">
+                    <label class="form-label">Weight</label>
+                    <!-- Visible text (not editable) -->
+                    <input type="text" class="form-control inp-peso-display" value="" readonly>
+                    <!-- Real value in kg sent to the backend -->
+                    <input type="hidden"
+                           class="inp-peso-lb"
+                           th:name="|items[${st.index}].pesoEstimado|"
+                           th:value="${it.pesoEstimado}">
+                </div>
+
+                <!-- Remove row -->
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="button" class="btn btn-danger w-100" onclick="removeRow(this)">&times;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add new row button -->
+        <div class="row">
+            <div class="col-md-3 mt-3">
+                <button type="button" class="btn btn-secondary w-100" onclick="addRow()">
+                    + Add product
+                </button>
+            </div>
+        </div>
+
+        <!-- Shipping line and comments -->
+        <div class="row g-4">
+            <div class="col-md-6">
+                <label for="naviera" class="form-label">Shipping Line</label>
+                <input type="text"
+                       id="naviera"
+                       class="form-control"
+                       th:field="*{naviera}"
+                       placeholder="Shipping line name" />
+            </div>
+            <div class="col-md-6">
+                <label for="comentarios" class="form-label">Additional comments</label>
+                <textarea id="comentarios"
+                          class="form-control"
+                          rows="3"
+                          th:field="*{comentarios}"
+                          placeholder="Add any comments here"></textarea>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="mt-4 text-end">
+            <button type="submit" class="btn btn-primary btn-lg">
+                Send Quotation
+            </button>
+        </div>
+    </form>
+</section>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer_en :: footer_en}"></div>
+
+<!-- JavaScript for cloning/removing rows and reloading presentations -->
+
+<script>
+    const container = document.getElementById('items-container');
+    const template  = container.querySelector('.item-row').cloneNode(true);
+    const KG_PER_LB = 0.45359237;
+
+    function clearRow(row) {
+        row.querySelectorAll('input').forEach(i => i.value = '');
+        row.querySelectorAll('select').forEach(s => { s.selectedIndex = 0; });
+        const presSel = row.querySelector('.sel-presentacion');
+        if (presSel) {
+            presSel.innerHTML = '<option value="">Presentation</option>';
+            presSel.disabled = true;     // blocked until product is selected
+            presSel.required = true;     // required when enabled
+        }
+    }
+
+    function reindex() {
+        container.querySelectorAll('.item-row').forEach((row, idx) => {
+            row.querySelectorAll('[name^="items["]').forEach(el => {
+                el.name = el.name.replace(/items\[\d+]/, `items[${idx}]`);
+            });
+        });
+    }
+
+    function addRow() {
+        const copy = template.cloneNode(true);
+        clearRow(copy);
+        container.appendChild(copy);
+        reindex();
+        const prodSel = copy.querySelector('.sel-producto');
+        if (prodSel && prodSel.value) {
+            fetchPresentacionesForRow(copy, prodSel.value, null);
+        }
+    }
+
+    function removeRow(btn) {
+        const rows = container.querySelectorAll('.item-row');
+        if (rows.length > 1) {
+            btn.closest('.item-row').remove();
+            reindex();
+        }
+    }
+
+    async function fetchPresentacionesForRow(row, productoId, selectedPresId) {
+        if (!productoId) return;
+
+        const presSel = row.querySelector('.sel-presentacion');
+        presSel.innerHTML = '<option value="">Presentation</option>';
+        presSel.disabled = true;
+
+        try {
+            const resp = await fetch(`/api/presentaciones?productoId=${encodeURIComponent(productoId)}`);
+            const list = await resp.json();
+
+            list.forEach(p => {
+                const o = document.createElement('option');
+                o.value = p.id;
+
+                // 👇👇 AQUÍ ESTÁ EL CAMBIO IMPORTANTE
+                const lb = Number(p.pesoEstimado || 0);         // viene en libras desde el backend
+                const kg = +(lb * KG_PER_LB).toFixed(2);
+
+                // Guardamos ambos valores como data-attributes
+                o.dataset.lb = lb;                               // lb por unidad (lo que usará computePeso para enviar)
+                o.dataset.kg = kg;                               // kg por unidad (solo para mostrar)
+
+                // Texto visible en el combo
+                o.textContent = `${p.tipo} ${Math.round(lb)} lb (${kg} kg)`;
+
+                presSel.appendChild(o);
+            });
+
+            presSel.disabled = (list.length === 0);
+
+            // Preselección si venía algo
+            if (selectedPresId) presSel.value = String(selectedPresId);
+
+            // Recalcula el peso por si ya hay "unidades" llenas
+            computePeso(row);
+        } catch (e) {
+            presSel.innerHTML = '<option value="">Error loading</option>';
+        }
+    }
+
+    function computePeso(row) {
+        const presSel = row.querySelector('.sel-presentacion');
+        const uniInp  = row.querySelector('.inp-unidades');
+        const disp    = row.querySelector('.inp-peso-display');
+        const hidden  = row.querySelector('.inp-peso-lb');
+
+        const unidades = Number(uniInp?.value || 0);
+        const opt = presSel?.selectedOptions?.[0];
+        const lbPorUnidad = opt ? Number(opt.dataset.lb || 0) : 0;
+
+        if (!unidades || !lbPorUnidad) {
+            if (disp)   disp.value  = '';
+            if (hidden) hidden.value = '';
+            return;
+        }
+
+        const totalLbExact = unidades * lbPorUnidad;
+        const totalKg = +(totalLbExact * KG_PER_LB).toFixed(2);
+        const totalLbShow  = Math.round(totalLbExact);
+
+        if (disp)   disp.value  = `${totalLbShow} lb (${totalKg} kg)`;
+        if (hidden) hidden.value = +totalLbExact.toFixed(2);  // lo que se envía al backend (en lb)
+    }
+
+    // Presentation changes
+    container.addEventListener('change', (e) => {
+        if (e.target.matches('select.sel-producto')) {
+            const row = e.target.closest('.item-row');
+
+            const presSel = row.querySelector('.sel-presentacion');
+            const disp    = row.querySelector('.inp-peso-display');
+            const hidden  = row.querySelector('.inp-peso-lb');
+
+            // Reset presentation and weight
+            presSel.innerHTML = '<option value="">Presentation</option>';
+            presSel.disabled = true;
+            if (disp) disp.value = '';
+            if (hidden) hidden.value = '';
+
+            // Load presentations for the selected product
+            fetchPresentacionesForRow(row, e.target.value, null);
+        }
+    });
+
+    // When unit changes (while writing)
+    container.addEventListener('input', (e) => {
+        if (e.target.matches('input.inp-unidades')) {
+            computePeso(e.target.closest('.item-row'));
+        }
+
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        container.querySelectorAll('.item-row').forEach(row => {
+            const prodSel = row.querySelector('.sel-producto');
+            if (prodSel && prodSel.value) {
+                fetchPresentacionesForRow(row, prodSel.value, null);
+            }
+        });
+    });
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Success modal (injected only if coming from POST with flash attribute) -->
+
+<div th:if="${cotizacionEnviada}">
+    <div class="modal fade" id="okModal" tabindex="-1" aria-labelledby="okModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="okModalLabel" class="modal-title">Quote sent successfully!</h5>
+                </div>
+                <div class="modal-body text-center">
+                    Your quote was successfully registered.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Accept</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const el = document.getElementById('okModal');
+        if (el) {
+            const modal = new bootstrap.Modal(el);
+            modal.show();
+        }
+    });
+</script>
+
+</body>
+</html>

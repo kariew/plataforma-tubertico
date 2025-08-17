@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Products | Tubertico')"></head>
+
+<style>
+    .banner-productos {
+        background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+                    url('/img/fondo_producto.jpg') center 80% / cover no-repeat;
+        color: white;
+        min-height: 460px;
+        display: flex;
+        align-items: center;
+    }
+
+    .texto-intro {
+        color: #e5e5e5;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        font-weight: 500;
+    }
+
+    .grid-productos {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 20px;
+        padding: 60px 40px;
+        justify-items: center;
+    }
+
+    .producto-tile {
+        width: 100%;
+        aspect-ratio: 1/1;
+        background-color: #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #444;
+        text-align: center;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+
+    .producto-tile:hover {
+        transform: scale(1.05);
+        background-color: #d2d2d2;
+    }
+
+    @media (max-width: 1200px) {
+        .grid-productos {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .grid-productos {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .chart-container {
+        position: relative;
+        height: 100%;
+        min-height: 400px;
+    }
+</style>
+
+<body>
+<!-- Header -->
+<th:block th:replace="fragments/header_en :: header_en"></th:block>
+
+<!-- Banner -->
+<section class="banner-productos">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-4 mb-md-0">
+                <h2 class="fw-light text-uppercase" style="letter-spacing: 2px;">Our</h2>
+                <h1 class="fw-bold display-4 text-uppercase">PRODUCTS</h1>
+            </div>
+            <div class="col-md-6">
+                <p class="texto-intro">
+                    At Tubertico we work with selected roots, tubers, and vegetables under the highest standards of quality and safety.
+                    We export fresh and processed products to satisfy the most demanding markets.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Grid -->
+<section class="grid-productos">
+    <div class="producto-tile">Squash</div>
+    <div class="producto-tile">White Chayote</div>
+    <div class="producto-tile">Dried Coconut</div>
+    <div class="producto-tile">Ginger</div>
+    <div class="producto-tile">White Malanga</div>
+    <div class="producto-tile">Purple Malanga</div>
+    <div class="producto-tile">Yellow Yam</div>
+    <div class="producto-tile">Yam</div>
+    <div class="producto-tile">White Yautia</div>
+    <div class="producto-tile">Purple Yautia</div>
+    <div class="producto-tile">Cassava</div>
+    <div class="producto-tile">Carrot</div>
+    <div class="producto-tile">Sweet Potato</div>
+    <div class="producto-tile">Yampi</div>
+</section>
+
+<!-- Section: chart + certifications -->
+<section class="py-5 border-bottom" style="background-color: #fefefe; padding: 0 40px;">
+    <div class="row gx-4 align-items-stretch">
+
+        <!-- Chart -->
+        <div class="col-lg-6">
+            <div class="p-4 rounded-4 shadow bg-white h-100">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-uppercase">SALES 2024 VS PROJECTION 2025</h2>
+                    <p class="text-muted">Comparison in pounds of our main products</p>
+                </div>
+                <div style="height: 420px;">
+                    <canvas id="ventasChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right panel same height as chart -->
+        <div class="col-lg-6">
+            <div class="p-4 rounded-4 shadow w-100 text-center bg-white h-100 d-flex flex-column justify-content-center">
+
+                <!-- Tubertico Logo -->
+                <div class="mb-3">
+                    <img src="/img/tubertico_logo.png" alt="Tubertico Logo" style="height: 70px;">
+                </div>
+
+                <!-- Text -->
+                <div class="px-3" style="max-width: 90%; margin: 0 auto;">
+                    <p style="font-size: 1.05rem;" class="mb-3">
+                        Our company meets the <strong>Global GAP V6.0 GFSI</strong> and <strong>FSMA</strong> safety standards,<br>
+                        and our products are processed to ensure their freshness and quality at destination.
+                    </p>
+                    <p style="font-size: 1.05rem;">
+                        In 2024, we allocated approximately <strong>1,015 hectares</strong> to the production of our main tubers and roots.<br>
+                        For 2025, we project to grow to approximately <strong>1,117 hectares</strong>.
+                    </p>
+                </div>
+
+                <!-- Logos -->
+                <div class="d-flex justify-content-center gap-5 mt-4 flex-wrap">
+                    <img src="/img/logo_globalgap.png" alt="Global GAP" style="height: 90px;">
+                    <img src="/img/logo_fsma.png" alt="FDA FSMA" style="height: 80px;">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCT SHEET: Purple Tiquisque -->
+<section class="py-5" style="background-color: #ffffff;">
+    <div class="container">
+        <div class="row gx-4 align-items-center">
+
+            <!-- Information -->
+            <div class="col-lg-6 d-flex justify-content-end">
+                <div class="position-relative p-4 rounded-4 shadow bg-white" style="width: 100%; max-width: 420px; min-height: 320px;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="fw-bold mb-3">Purple Tiquisque</h5>
+                        <img src="/img/favicon.png" alt="favicon" style="width: 24px; opacity: 0.7;">
+                    </div>
+
+                    <p class="mb-1"><strong>Scientific name:</strong> Xanthosoma violaceum</p>
+
+                    <!-- Commercial presentation in pounds -->
+                    <p class="mb-1"><strong>Commercial presentation:</strong></p>
+                    <ul class="mb-2">
+                        <li>Weight: 35.3 lb – Boxes per pallet: 60</li>
+                        <li>Weight: 22.0 lb – Boxes per pallet: 108</li>
+                    </ul>
+
+                    <p class="mb-1"><strong>Nutritional composition per 100g:</strong></p>
+                    <ul class="mb-2">
+                        <li>Energy: 112 kcal</li>
+                        <li>Carbohydrates: 26 g</li>
+                        <li>Fiber: 4.1 g</li>
+                        <li>Calcium: 18 mg</li>
+                        <li>Potassium: 591 mg</li>
+                    </ul>
+                    <p class="mb-0"><strong>Common uses:</strong> boiled, mashed, soups, chips.</p>
+                </div>
+            </div>
+
+            <!-- Image -->
+            <div class="col-lg-6 d-flex justify-content-start">
+                <div class="producto-tile rounded shadow"
+                     style="width: 100%; max-width: 400px; aspect-ratio: 1 / 1; font-size: 1.1rem;">
+                    Purple Tiquisque
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCT SHEET: Fresh Yam -->
+<section class="py-5" style="background-color: #ffffff;">
+    <div class="container">
+        <div class="row gx-4 align-items-center">
+
+            <!-- Product image on the left -->
+            <div class="col-lg-6 d-flex justify-content-end">
+                <div class="producto-tile rounded shadow"
+                     style="width: 100%; max-width: 400px; aspect-ratio: 1 / 1; font-size: 1.1rem;">
+                    Fresh Yam
+                </div>
+            </div>
+
+            <!-- Information sheet on the right -->
+            <div class="col-lg-6 d-flex justify-content-start">
+                <div class="position-relative p-4 rounded-4 shadow bg-white"
+                     style="width: 100%; max-width: 420px; min-height: 320px;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="fw-bold mb-3">Fresh Yam</h5>
+                        <img src="/img/favicon.png" alt="favicon" style="width: 24px; opacity: 0.7;">
+                    </div>
+
+                    <p class="mb-1"><strong>Scientific name:</strong> Dioscorea alata</p>
+
+                    <!-- Commercial presentation in pounds -->
+                    <p class="mb-1"><strong>Commercial presentation:</strong></p>
+                    <ul class="mb-2">
+                        <li>Weight: 35.3 lb – Boxes per pallet: 60</li>
+                        <li>Weight: 22.0 lb – Boxes per pallet: 108</li>
+                    </ul>
+
+                    <p class="mb-1"><strong>Nutritional composition per 100g:</strong></p>
+                    <ul class="mb-2">
+                        <li>Calories: 118 kcal</li>
+                        <li>Carbohydrates: 28 g</li>
+                        <li>Fiber: 4.1 g</li>
+                        <li>Potassium: 816 mg</li>
+                        <li>Vitamin C: 17.1 mg</li>
+                    </ul>
+                    <p class="mb-0"><strong>Common uses:</strong> boiled, mashed, soups.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCT SHEET: White Chayote -->
+<section class="py-5" style="background-color: #ffffff;">
+    <div class="container">
+        <div class="row gx-4 align-items-center">
+
+            <!-- Information -->
+            <div class="col-lg-6 d-flex justify-content-end">
+                <div class="position-relative p-4 rounded-4 shadow bg-white" style="width: 100%; max-width: 420px; min-height: 320px;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="fw-bold mb-3">White Chayote</h5>
+                        <img src="/img/favicon.png" alt="favicon" style="width: 24px; opacity: 0.7;">
+                    </div>
+
+                    <p class="mb-1"><strong>Scientific name:</strong> Sechium edule</p>
+
+                    <!-- Commercial presentation in pounds -->
+                    <p class="mb-1"><strong>Commercial presentation:</strong></p>
+                    <ul class="mb-2">
+                        <li>Weight: 35.3 lb – Boxes per pallet: 60</li>
+                        <li>Weight: 18.7 lb – Boxes per pallet: 108</li>
+                    </ul>
+
+                    <p class="mb-1"><strong>Nutritional composition per 100g:</strong></p>
+                    <ul class="mb-2">
+                        <li>Calories: 19 kcal</li>
+                        <li>Carbohydrates: 4.5 g</li>
+                        <li>Fiber: 1.7 g</li>
+                        <li>Vitamin C: 7.7 mg</li>
+                        <li>Potassium: 125 mg</li>
+                    </ul>
+                    <p class="mb-0"><strong>Common uses:</strong> soups, salads, boiled.</p>
+                </div>
+            </div>
+
+            <!-- Image -->
+            <div class="col-lg-6 d-flex justify-content-start">
+                <div class="producto-tile rounded shadow"
+                     style="width: 100%; max-width: 400px; aspect-ratio: 1 / 1; font-size: 1.1rem;">
+                    White Chayote
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCT SHEET: Cassava -->
+<section class="py-5" style="background-color: #ffffff;">
+    <div class="container">
+        <div class="row gx-4 align-items-center">
+
+            <!-- Image on the left -->
+            <div class="col-lg-6 d-flex justify-content-end">
+                <div class="producto-tile rounded shadow"
+                     style="width: 100%; max-width: 400px; aspect-ratio: 1 / 1; font-size: 1.1rem;">
+                    Cassava
+                </div>
+            </div>
+
+            <!-- Information on the right -->
+            <div class="col-lg-6 d-flex justify-content-start">
+                <div class="position-relative p-4 rounded-4 shadow bg-white" style="width: 100%; max-width: 420px; min-height: 320px;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="fw-bold mb-3">Cassava</h5>
+                        <img src="/img/favicon.png" alt="favicon" style="width: 24px; opacity: 0.7;">
+                    </div>
+
+                    <p class="mb-1"><strong>Scientific name:</strong> Manihot esculenta</p>
+
+                    <!-- Commercial presentation in pounds -->
+                    <p class="mb-1"><strong>Commercial presentation:</strong></p>
+                    <ul class="mb-2">
+                        <li>Weight: 35.3 lb – Boxes per pallet: 60</li>
+                        <li>Weight: 22.0 lb – Boxes per pallet: 108</li>
+                    </ul>
+
+                    <p class="mb-1"><strong>Nutritional composition per 100g:</strong></p>
+                    <ul class="mb-2">
+                        <li>Calories: 160 kcal</li>
+                        <li>Carbohydrates: 38 g</li>
+                        <li>Fiber: 1.8 g</li>
+                        <li>Calcium: 16 mg</li>
+                        <li>Potassium: 271 mg</li>
+                    </ul>
+                    <p class="mb-0"><strong>Common uses:</strong> fried, boiled, mashed, soups.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCT SHEET: Purple Malanga -->
+<section class="py-5" style="background-color: #ffffff;">
+    <div class="container">
+        <div class="row gx-4 align-items-center">
+
+            <!-- Information -->
+            <div class="col-lg-6 d-flex justify-content-end">
+                <div class="position-relative p-4 rounded-4 shadow bg-white" style="width: 100%; max-width: 420px; min-height: 320px;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="fw-bold mb-3">Purple Malanga</h5>
+                        <img src="/img/favicon.png" alt="favicon" style="width: 24px; opacity: 0.7;">
+                    </div>
+
+                    <p class="mb-1"><strong>Scientific name:</strong> Xanthosoma violaceum</p>
+
+                    <p class="mb-1"><strong>Commercial presentation:</strong></p>
+                    <ul class="mb-2">
+                        <li>Weight: 35.3 lb – Boxes per pallet: 60</li>
+                        <li>Weight: 22.0 lb – Boxes per pallet: 108</li>
+                    </ul>
+
+                    <p class="mb-1"><strong>Nutritional composition per 100g:</strong></p>
+                    <ul class="mb-2">
+                        <li>Calories: 118 kcal</li>
+                        <li>Carbohydrates: 27 g</li>
+                        <li>Fiber: 4.1 g</li>
+                        <li>Calcium: 14 mg</li>
+                        <li>Potassium: 591 mg</li>
+                    </ul>
+                    <p class="mb-0"><strong>Common uses:</strong> boiled, mashed, chips, soups.</p>
+                </div>
+            </div>
+
+            <!-- Image -->
+            <div class="col-lg-6 d-flex justify-content-start">
+                <div class="producto-tile rounded shadow"
+                     style="width: 100%; max-width: 400px; aspect-ratio: 1 / 1; font-size: 1.1rem;">
+                    Purple Malanga
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCT SHEET: Ginger -->
+<section class="py-5" style="background-color: #ffffff;">
+    <div class="container">
+        <div class="row gx-4 align-items-center">
+
+            <!-- Image on the left -->
+            <div class="col-lg-6 d-flex justify-content-end">
+                <div class="producto-tile rounded shadow"
+                     style="width: 100%; max-width: 400px; aspect-ratio: 1 / 1; font-size: 1.1rem;">
+                    Ginger
+                </div>
+            </div>
+
+            <!-- Sheet -->
+            <div class="col-lg-6 d-flex justify-content-start">
+                <div class="position-relative p-4 rounded-4 shadow bg-white" style="width: 100%; max-width: 420px; min-height: 320px;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="fw-bold mb-3">Ginger</h5>
+                        <img src="/img/favicon.png" alt="favicon" style="width: 24px; opacity: 0.7;">
+                    </div>
+
+                    <p class="mb-1"><strong>Scientific name:</strong> Zingiber officinale</p>
+
+                    <p class="mb-1"><strong>Commercial presentation:</strong></p>
+                    <ul class="mb-2">
+                        <li>Weight: 30.8 lb – Boxes per pallet: 60</li>
+                    </ul>
+
+                    <p class="mb-1"><strong>Nutritional composition per 100g:</strong></p>
+                    <ul class="mb-2">
+                        <li>Calories: 80 kcal</li>
+                        <li>Carbohydrates: 18 g</li>
+                        <li>Fiber: 2 g</li>
+                        <li>Vitamin C: 5 mg</li>
+                        <li>Potassium: 415 mg</li>
+                    </ul>
+                    <p class="mb-0"><strong>Common uses:</strong> tea, seasoning, syrups, ferments.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-5" style="background-color: #ffffff;">
+    <div class="container">
+        <div class="row gx-4 align-items-center">
+
+            <!-- Information sheet on the left -->
+            <div class="col-lg-6 d-flex justify-content-end">
+                <div class="position-relative p-4 rounded-4 shadow bg-white"
+                     style="width: 100%; max-width: 420px; min-height: 320px;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="fw-bold mb-3">White Tiquisque</h5>
+                        <img src="/img/favicon.png" alt="favicon" style="width: 24px; opacity: 0.7;">
+                    </div>
+                    <p class="mb-1"><strong>Scientific name:</strong> Xanthosoma sagittifolium</p>
+                    <p class="mb-1"><strong>Commercial presentation:</strong></p>
+                    <ul class="mb-2">
+                        <li>Weight: 35.27 lb – Boxes per pallet: 60</li>
+                        <li>Weight: 22.05 lb – Boxes per pallet: 108</li>
+                    </ul>
+                    <p class="mb-1"><strong>Nutritional composition per 100g:</strong></p>
+                    <ul class="mb-2">
+                        <li>Calories: 112 kcal</li>
+                        <li>Carbohydrates: 26 g</li>
+                        <li>Fiber: 4.1 g</li>
+                        <li>Calcium: 18 mg</li>
+                        <li>Potassium: 591 mg</li>
+                    </ul>
+                    <p class="mb-0"><strong>Common uses:</strong> boiled, mashed, soups, chips.</p>
+                </div>
+            </div>
+
+            <!-- Product image on the right -->
+            <div class="col-lg-6 d-flex justify-content-start">
+                <div class="producto-tile rounded shadow"
+                     style="width: 100%; max-width: 400px; aspect-ratio: 1 / 1; font-size: 1.1rem;">
+                    White Tiquisque
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Subtle divider line -->
+<hr class="my-5" style="border-top: 1px solid #ddd;">
+
+<!-- Specific styles -->
+<style>
+    .producto-tile {
+      background-color: #d8d8d8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #444;
+      text-align: center;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .producto-tile:hover {
+      transform: scale(1.05);
+      background-color: #cfcfcf;
+    }
+</style>
+
+<!-- Script Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('ventasChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: [
+          'Purple Tiquisque',
+          'White Chayote',
+          'Cassava',
+          'Purple Malanga',
+          'Ginger',
+          'Fresh Yam',
+          'White Tiquisque'
+        ],
+        datasets: [
+          {
+            label: 'Sales 2024',
+            data: [4600000, 3900000, 3200000, 2800000, 2000000, 2300000, 2100000],
+            backgroundColor: '#5f6c2c'
+          },
+          {
+            label: 'Projection 2025',
+            data: [5000000, 4100000, 3500000, 3000000, 2200000, 2500000, 2300000],
+            backgroundColor: '#c75c19'
+          }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: {
+              callback: function (value) {
+                return value / 1000000 + 'M';
+              }
+            },
+            title: {
+              display: true,
+              text: 'Pounds'
+            }
+          },
+          y: {
+            ticks: {
+              font: {
+                size: 13,
+                weight: 'bold'
+              }
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        }
+      }
+    });
+</script>
+
+<!-- Contact fragment -->
+<div th:replace="fragments/contacto_en :: contacto_en"></div>
+
+<!-- Map fragment -->
+<div th:replace="fragments/mapa_en :: mapa_en"></div>
+<!-- Global footer -->
+<div th:replace="fragments/footer_en :: footer_en"></div>
+
+</body>
+</html>

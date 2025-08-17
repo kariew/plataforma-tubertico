@@ -1,0 +1,73 @@
+<!-- fragments/contacto_split.html -->
+<style>
+    .split-panel {
+        min-height: 60vh;
+    }
+
+    .panel-contacto {
+        background-color: #5f6c2c;
+        color: white;
+        padding: 50px 40px;
+    }
+
+    .panel-contacto h2 {
+        font-size: 2.2rem;
+    }
+
+    .panel-contacto a {
+        color: white;
+        text-decoration: underline;
+    }
+
+    .panel-contacto .btn {
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .contacto-col p {
+        margin-bottom: 0.75rem;
+    }
+</style>
+
+<div class="row g-0 split-panel" th:fragment="contacto_split">
+    <!-- Mapa -->
+    <div class="col-md-6">
+        <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3927.099084636234!2d-83.75191!3d10.2754762!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa0b7dfc3fbd86f%3A0xb85f0bbf1d63f0b8!2sTuberculos%20Ticos%20S.R.L.%20(TUBERTICO)!5e0!3m2!1ses-419!2scr!4v1717529058731!5m2!1ses-419!2scr"
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+
+    <!-- Contacto -->
+    <div class="col-md-6 panel-contacto d-flex flex-column justify-content-center">
+        <div class="text-center">
+            <h2 class="fw-bold mb-2">NUESTROS<br>CONTACTOS</h2>
+            <hr class="mx-auto mb-4" style="width: 80px; height: 2px; background-color: white; opacity: 0.5;">
+
+            <!-- Botones -->
+            <div class="mb-4 d-flex justify-content-center gap-2">
+                <a href="https://goo.gl/maps/fHpVkq4Awd2v5XAn7" target="_blank" class="btn btn-light">
+                    <i class="bi bi-geo-alt-fill"></i> Ubicación
+                </a>
+                <a href="tel:+50683885918" class="btn btn-light">
+                    <i class="bi bi-telephone-fill"></i> Contacto
+                </a>
+            </div>
+
+            <!-- Contactos -->
+            <div class="row justify-content-center">
+                <div class="col-md-5 text-end pe-md-4 border-end border-white contacto-col">
+                    <strong>Pablo Quirós</strong><br>
+                    (+506) 8388-5918<br>
+                    <a href="mailto:pablo.quiros@tubertico.com">pablo.quiros@tubertico.com</a>
+                </div>
+                <div class="col-md-5 text-start ps-md-4 contacto-col">
+                    <strong>Oficina</strong><br>
+                    (+506) 8973-2830<br>
+                    <a href="mailto:oficina@tubertico.com">oficina@tubertico.com</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

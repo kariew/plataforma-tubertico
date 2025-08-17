@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .fade-in {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .fade-in.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<!-- ✅ HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 bg-white p-4 rounded shadow">
+
+            <h2 class="mb-4 text-center">Registro</h2>
+
+            <form id="registroForm" th:action="@{/register}" th:object="${usuario}" method="post">
+                <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                <!-- Estos se muestran desde el inicio -->
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre completo</label>
+                    <input type="text" th:field="*{nombre}" id="nombre" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="empresa" class="form-label">Nombre de la empresa</label>
+                    <input type="text" th:field="*{empresa}" id="empresa" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo electrónico</label>
+                    <input type="email" th:field="*{correo}" id="correo" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="pais" class="form-label">País</label>
+                    <input type="text" th:field="*{pais}" id="pais" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" th:field="*{telefono}" id="telefono" class="form-control" required>
+                </div>
+
+                <!-- Estos se muestran progresivamente -->
+                <div class="mb-3 fade-in" id="campoPassword">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" th:field="*{password}" id="password" class="form-control" required>
+                </div>
+
+                <div class="mb-3 fade-in" id="campoConfirmarPassword">
+                    <label for="confirmarPassword" class="form-label">Confirmar contraseña</label>
+                    <input type="password" name="confirmarPassword" id="confirmarPassword" class="form-control" required>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">Registrarse</button>
+                </div>
+
+                <div class="mt-3 text-center">
+                    <a th:href="@{/oauth2/authorization/google}" class="btn btn-outline-dark w-100 google-btn">
+                        <img src="/img/google-icon.png" alt="Google" style="width: 20px;">
+                        Accede con Google
+                    </a>
+                </div>
+            </form>
+
+            <div class="mt-3 text-center">
+                <a th:href="@{/login}" class="text-decoration-none">¿Ya tienes cuenta? Iniciar sesión</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Separador visual -->
+<div class="my-5"></div>
+
+<!-- ✅ FOOTER -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+    // Mostrar progresivamente contraseña y confirmar
+    document.addEventListener("DOMContentLoaded", () => {
+        const passwordInput = document.getElementById("password");
+        const confirmarInput = document.getElementById("confirmarPassword");
+        const passwordDiv = document.getElementById("campoPassword");
+        const confirmarDiv = document.getElementById("campoConfirmarPassword");
+
+        // Ocultarlos al principio
+        passwordDiv.style.display = "none";
+        confirmarDiv.style.display = "none";
+
+        // Mostrar cuando se completa el último campo fijo (teléfono)
+        document.getElementById("telefono").addEventListener("input", function () {
+            if (this.value.trim() !== "") {
+                passwordDiv.style.display = "block";
+                setTimeout(() => passwordDiv.classList.add("show"), 50);
+            }
+        });
+
+        passwordInput.addEventListener("input", function () {
+            if (this.value.trim() !== "") {
+                confirmarDiv.style.display = "block";
+                setTimeout(() => confirmarDiv.classList.add("show"), 50);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
